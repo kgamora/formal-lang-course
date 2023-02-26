@@ -21,7 +21,7 @@ def get_graph_info_by_name(name: str) -> dict:
 def make_double_cycled_graph_and_save_into_dot(
     number_of_nodes_first_cycle: int,
     number_of_nodes_second_cycle: int,
-    labels: tuple[str, str],
+    labels: tuple,
     file_name: str,
 ):
     graph = cfpq_data.graphs.generators.labeled_two_cycles_graph(
