@@ -1,3 +1,4 @@
+import os.path
 import random
 import pytest
 import project  # on import will print something from __init__ file
@@ -26,5 +27,4 @@ def test_save_double_cycle_dot():
     make_double_cycled_graph_and_save_into_dot(random.randint(100, 200), random.randint(100, 200),
                                                graph_info["edge_labels"],
                                                file_name)
-    with open(file_name) as my_file:
-        print(my_file.read())
+    assert os.path.exists(file_name)
