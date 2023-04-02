@@ -13,11 +13,7 @@ def to_wcnf(grammar: CFG) -> CFG:
     new_grammar: CFG
     new_productions: list[Production]
 
-    new_grammar = (
-        grammar.remove_useless_symbols()
-        .eliminate_unit_productions()
-        .remove_useless_symbols()
-    )
+    new_grammar = grammar.eliminate_unit_productions().remove_useless_symbols()
 
     new_productions = new_grammar._get_productions_with_only_single_terminals()
     new_productions = new_grammar._decompose_productions(new_productions)
