@@ -18,8 +18,12 @@ def non_deterministic_state_machine_from_graph(
     nfa: NondeterministicFiniteAutomaton = (
         NondeterministicFiniteAutomaton.from_networkx(graph)
     )
-    start_states = graph.nodes.items() if start_states is None else start_states
-    final_states = graph.nodes.items() if final_states is None else final_states
+    start_states = (
+        {i[0] for i in graph.nodes.items()} if start_states is None else start_states
+    )
+    final_states = (
+        {i[0] for i in graph.nodes.items()} if final_states is None else final_states
+    )
     Seq(start_states).foreach(lambda state: nfa.add_start_state(State(state)))
     Seq(final_states).foreach(lambda state: nfa.add_final_state(State(state)))
     return nfa
