@@ -32,7 +32,7 @@ def cfpq(
     }
 
 
-def hellings(cfg: CFG, target: MultiDiGraph) -> AbstractSet[(Node, Variable, Node)]:
+def hellings(cfg: CFG, target: MultiDiGraph):
     prods: dict[str, set[Production]]
     res: AbstractSet[(Node, Variable, Node)]
 
@@ -53,20 +53,20 @@ def hellings(cfg: CFG, target: MultiDiGraph) -> AbstractSet[(Node, Variable, Nod
             case [Variable(), Variable()]:
                 prods[VAR].add(production)
 
-    r = set()
+    r = list()
 
-    for (start, label, end) in target.edges(data="label"):
+    for (start, end, label) in target.edges(data="label"):
         for term_prod in prods[TERM]:
-            if term_prod.body == label:
-                r.add((term_prod.head, start, end))
+            if term_prod.body[0].value == label:
+                r.append((term_prod.head, start, end))
 
     for eps_prod in prods[EPS]:
         for node in target.nodes:
-            r.add((eps_prod.head, node, node))
+            r.append((eps_prod.head, node, node))
 
     m = r.copy()
 
-    while m:
+    while len(m) > 0:
         (n_i, v, u) = m.pop()
         for (n_j, v1, u1) in r:
             if u1 == v:
@@ -77,8 +77,8 @@ def hellings(cfg: CFG, target: MultiDiGraph) -> AbstractSet[(Node, Variable, Nod
                         and var_prod.body[1] == n_i
                         and triple not in r
                     ):
-                        m.add(triple)
-                        r.add(triple)
+                        m.append(triple)
+                        r.append(triple)
         for (n_j, u1, v1) in r:
             if u1 == u:
                 for var_prod in prods[VAR]:
@@ -88,9 +88,9 @@ def hellings(cfg: CFG, target: MultiDiGraph) -> AbstractSet[(Node, Variable, Nod
                         and var_prod.body[1] == n_j
                         and triple not in r
                     ):
-                        m.add(triple)
-                        r.add(triple)
+                        m.append(triple)
+                        r.append(triple)
 
-    res = set(map(lambda var, u, v: (u, var, v), r))
+    res = set(map(lambda var: (var[1], var[0], var[2]), r))
 
     return res
