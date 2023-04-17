@@ -1,12 +1,38 @@
 from networkx import MultiDiGraph
 from typing import AbstractSet
-from pyformlang.cfg import CFG, Variable, Epsilon, Terminal
+from pyformlang.cfg import Variable, Epsilon, Terminal
 from project.task_06.source import *
 
 Node = object
 
 
-def hellings(cfg: CFG, target: MultiDiGraph) -> AbstractSet[(Variable, Node, Node)]:
+def cfpq(
+    target: MultiDiGraph,
+    cfg: CFG,
+    start_nodes: AbstractSet[Node] = None,
+    final_nodes: AbstractSet[Node] = None,
+    start_symbol: Variable = Variable("S"),
+):
+    """
+    Returns all pairs of nodes u, v such that v is reachable from u in target graph under cfg constraints
+    and u is from start nodes and v is from final nodes
+    :param target: target graph
+    :param cfg: context-free grammar
+    :param start_nodes: start nodes
+    :param final_nodes: final nodes
+    :param start_symbol: start symbol
+    :return: all pairs of nodes u, v such that v is reachable from u in graph under cfg constraints
+    """
+    start_nodes = target.nodes if start_nodes is None else start_nodes
+    final_nodes = target.nodes if final_nodes is None else final_nodes
+    return {
+        (u, v)
+        for (u, V, v) in hellings(cfg, target)
+        if V == start_symbol and u in start_nodes and v in final_nodes
+    }
+
+
+def hellings(cfg: CFG, target: MultiDiGraph) -> AbstractSet[(Node, Variable, Node)]:
     prods: dict[str, set[Production]]
     res: AbstractSet[(Node, Variable, Node)]
 
