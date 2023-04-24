@@ -1,43 +1,29 @@
 import pytest
 from project.task_08.source import *
 from project.task_06.source import *
+import networkx
 
 GRAMMAR_PATH = Path(".") / Path("test_grammars")
+GRAPH_PATH = Path(".") / Path("test_graphs")
 
 
 def setup_module(module):
     print("basic setup module")
 
 
-def teardown_module(module):
-    print("basic teardown module")
-
-
 @pytest.mark.parametrize(
-    "cfg_path, graph_edges, expected_cfpq, start_nodes, final_nodes",
+    "cfg_path, graph_path, expected_cfpq, start_nodes, final_nodes",
     [
         (
             Path("grammar5.txt"),
-            [
-                (0, 1, {"label": "a"}),
-                (1, 2, {"label": "a"}),
-                (2, 0, {"label": "a"}),
-                (2, 3, {"label": "b"}),
-                (3, 2, {"label": "b"}),
-            ],
+            Path("graph1.dot"),
             {(1, 2), (0, 3), (2, 3), (0, 2), (2, 2), (1, 3)},
             None,
             None,
         ),
         (
-            "grammar5.txt",
-            [
-                (0, 1, {"label": "a"}),
-                (1, 2, {"label": "a"}),
-                (2, 0, {"label": "a"}),
-                (2, 3, {"label": "b"}),
-                (3, 2, {"label": "b"}),
-            ],
+            Path("grammar5.txt"),
+            Path("graph1.dot"),
             {(0, 3), (2, 3)},
             {0, 2},
             {3},
@@ -46,13 +32,23 @@ def teardown_module(module):
 )
 def test_cfpq(
     cfg_path,
-    graph_edges,
+    graph_path,
     expected_cfpq,
     start_nodes,
     final_nodes,
 ):
+    expected_cfpq = set(map(lambda pair: (str(pair[0]), str(pair[1])), expected_cfpq))
+    start_nodes = (
+        None if start_nodes is None else set(map(lambda v: str(v), start_nodes))
+    )
+    final_nodes = (
+        None if final_nodes is None else set(map(lambda v: str(v), final_nodes))
+    )
     cfg = cfg_from_txt(GRAMMAR_PATH / cfg_path)
-    graph = MultiDiGraph()
-    graph.add_edges_from(graph_edges)
+    graph = networkx.drawing.nx_pydot.read_dot(GRAPH_PATH / graph_path)
     res_cfpq = cfpq(graph, cfg, start_nodes, final_nodes)
     assert res_cfpq == expected_cfpq
+
+
+def teardown_module(module):
+    print("basic teardown module")

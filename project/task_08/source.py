@@ -6,9 +6,20 @@ from project.task_06.source import *
 Node = object
 
 
+def labeled_graph_from_text(edges: str) -> MultiDiGraph:
+    graph = MultiDiGraph()
+    graph.add_edges_from(edges)
+    return graph
+
+
+def labeled_graph_from_file(target: Path) -> MultiDiGraph:
+    with open(target) as text:
+        return labeled_graph_from_text(text.read())
+
+
 def cfpq(
-    target: MultiDiGraph,
-    cfg: CFG,
+    target: MultiDiGraph | Path,
+    cfg: CFG | Path,
     start_nodes: AbstractSet[Node] = None,
     final_nodes: AbstractSet[Node] = None,
     start_symbol: Variable = Variable("S"),
@@ -23,6 +34,8 @@ def cfpq(
     :param start_symbol: start symbol
     :return: all pairs of nodes u, v such that v is reachable from u in graph under cfg constraints
     """
+    target = labeled_graph_from_file(target) if isinstance(target, Path) else target
+    cfg = cfg_from_txt(cfg) if isinstance(cfg, Path) else cfg
     start_nodes = target.nodes if start_nodes is None else start_nodes
     final_nodes = target.nodes if final_nodes is None else final_nodes
     return {
