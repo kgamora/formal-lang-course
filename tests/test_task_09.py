@@ -46,7 +46,7 @@ def test_cfpq(
     )
     cfg = cfg_from_txt(GRAMMAR_PATH / cfg_path)
     graph = networkx.drawing.nx_pydot.read_dot(GRAPH_PATH / graph_path)
-    res_cfpq = cfpq(graph, cfg, start_nodes, final_nodes, Variable("S"), "hellings")
+    res_cfpq = cfpq(graph, cfg, start_nodes, final_nodes)
     assert res_cfpq == expected_cfpq
 
 

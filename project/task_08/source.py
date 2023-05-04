@@ -2,6 +2,7 @@ from networkx import MultiDiGraph
 from typing import AbstractSet
 from pyformlang.cfg import Variable, Epsilon, Terminal
 from project.task_06.source import *
+from project.task_09.source import *
 
 Node = object
 
@@ -23,6 +24,7 @@ def cfpq(
     start_nodes: AbstractSet[Node] = None,
     final_nodes: AbstractSet[Node] = None,
     start_symbol: Variable = Variable("S"),
+    implementation: str = "matrix",
 ):
     """
     Returns all pairs of nodes u, v such that v is reachable from u in target graph under cfg constraints
@@ -32,15 +34,23 @@ def cfpq(
     :param start_nodes: start nodes
     :param final_nodes: final nodes
     :param start_symbol: start symbol
+    :param implementation: implementation of the algorithm - `matrix` or `hellings`
     :return: all pairs of nodes u, v such that v is reachable from u in graph under cfg constraints
     """
     target = labeled_graph_from_file(target) if isinstance(target, Path) else target
     cfg = cfg_from_txt(cfg) if isinstance(cfg, Path) else cfg
     start_nodes = target.nodes if start_nodes is None else start_nodes
     final_nodes = target.nodes if final_nodes is None else final_nodes
+
+    match implementation:
+        case "matrix":
+            implementation = matrix
+        case "hellings":
+            implementation = hellings
+
     return {
         (u, v)
-        for (u, V, v) in hellings(cfg, target)
+        for (u, V, v) in implementation(cfg, target)
         if V == start_symbol and u in start_nodes and v in final_nodes
     }
 
