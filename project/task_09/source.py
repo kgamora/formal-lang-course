@@ -7,7 +7,6 @@ from pyformlang.cfg import Variable, Epsilon, Terminal
 
 def matrix(cfg: CFG, target: MultiDiGraph):
     n: int
-    # E: set[Edge]
     adjacency_mats: dict[Variable, dok_matrix]
     nodes_mapping: dict[Node, int]
 
