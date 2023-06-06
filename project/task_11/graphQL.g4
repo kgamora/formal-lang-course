@@ -27,11 +27,11 @@ expr:
 
 boolean:   'True' | 'False';
 val:    boolean | INT | STR;
-label:  INT | STR;                                  // TODO: мне бы хотелось обходиться со всеми лейблами как со строками (а лучше даже отдельными терминалами или нетерминалами)
+label:  var | INT | STR;                                  // TODO: мне бы хотелось обходиться со всеми лейблами как со строками (а лучше даже отдельными терминалами или нетерминалами)
 
 lambda_expr: LAMBDA (var CM)* (var)? ARR expr;      // допустима лямбда нулевой арности
 map_expr:    MAP LP lambda_expr CM expr RP;
-filter_expr: FILTER LP lambda_expr CM expr RP;      // TODO: хотелось бы строже определить тип лямбды для фильтра
+filter_expr: FILTER LP lambda_expr CM expr RP;
 
 vertex: var | INT;
 edge:   var | LP vertex ',' label ',' vertex RP;

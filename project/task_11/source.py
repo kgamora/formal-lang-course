@@ -1,6 +1,6 @@
-from graphQL.graphQLParser import graphQLParser
-from graphQL.graphQLLexer import graphQLLexer
-from graphQL.graphQLListener import graphQLListener
+from project.task_11.graphQL.graphQLParser import graphQLParser
+from project.task_11.graphQL.graphQLLexer import graphQLLexer
+from project.task_11.graphQL.graphQLListener import graphQLListener
 from antlr4 import CommonTokenStream, InputStream, ParserRuleContext
 from antlr4.tree.Tree import ParseTreeWalker, TerminalNodeImpl
 from pathlib import Path
