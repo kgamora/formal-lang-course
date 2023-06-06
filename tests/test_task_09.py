@@ -3,8 +3,8 @@ from project.task_08.source import *
 from project.task_06.source import *
 import networkx
 
-GRAMMAR_PATH = Path(".") / Path("test_grammars")
-GRAPH_PATH = Path(".") / Path("test_graphs")
+GRAMMAR_PATH = Path(".") / Path("tests") / Path("test_grammars")
+GRAPH_PATH = Path(".") / Path("tests") / Path("test_graphs")
 
 
 def setup_module(module):
