@@ -1,9 +1,11 @@
 antlr4-python3-runtime
+antlr4-tools
 black
 cfpq-data
 infixpy~=0.4.0
 
 networkx~=2.6.2
+
 pre-commit
 pydot
 pyformlang~=1.0.1

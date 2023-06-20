@@ -6,7 +6,7 @@ import project  # on import will print something from __init__ file
 from project.task_06.source import *
 from pathlib import Path
 
-GRAMMAR_PATH = Path(".") / Path("test_grammars")
+GRAMMAR_PATH = Path(".") / Path("tests") / Path("test_grammars")
 
 
 def setup_module(module):

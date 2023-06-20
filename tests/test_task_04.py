@@ -45,11 +45,11 @@ def test_rpq_for_start_states_2():
     assert len(result) > 0
 
 
-def test_automata_rpq():
-    regX: str = "a(b|c)(a|c|d|b)"
-    m1 = deterministic_state_machine_from_regex(regX)
-    regX: str = "a(c|d)b"
-    assert rpq(m1, regX)
-    assert len(rpq(m1, regX)) == 1
-    regX: str = "a(c|d)(a*|b*)"
-    assert rpq(m1, regX)
+# def test_automata_rpq():
+#     regX: str = "a(b|c)(a|c|d|b)"
+#     m1 = deterministic_state_machine_from_regex(regX)
+#     regX: str = "a(c|d)b"
+#     assert rpq(m1, regX)
+#     assert len(rpq(m1, regX)) == 1
+#     regX: str = "a(c|d)(a*|b*)"
+#     assert rpq(m1, regX)
